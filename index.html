@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Shifts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f2f2f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-top: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+
+    button {
+      background: #007AFF;
+      color: white;
+      border: none;
+      margin-top: 20px;
+    }
+
+    .shift {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>My Shifts</h1>
+
+<div class="card">
+  <label>Group</label>
+  <select id="group">
+    <option value="0">Group A</option>
+    <option value="1">Group B</option>
+    <option value="2">Group C</option>
+    <option value="3">Group D</option>
+    <option value="4">Group E</option>
+  </select>
+
+  <label>Start Date</label>
+  <input type="date" id="startDate">
+
+  <button onclick="calculateShift()">Show</button>
+</div>
+
+<div class="card">
+  <div>Today</div>
+  <div class="shift" id="today"></div>
+
+  <div style="margin-top:15px;">Tomorrow</div>
+  <div class="shift" id="tomorrow"></div>
+</div>
+
+<script>
+const shifts = [
+  "Morning (7–3)",
+  "Noon (3–11)",
+  "Night (11–7)",
+  "Off",
+  "Off"
+];
+
+function calculateShift() {
+  const g = parseInt(document.getElementById("group").value);
+  const start = new Date(document.getElementById("startDate").value);
+  const today = new Date();
+
+  const days = Math.floor((today - start) / 86400000);
+  const todayIndex = (days + g) % 5;
+  const tomorrowIndex = (todayIndex + 1) % 5;
+
+  document.getElementById("today").innerText = shifts[todayIndex];
+  document.getElementById("tomorrow").innerText = shifts[tomorrowIndex];
+}
+</script>
+
+</body>
+</html>
